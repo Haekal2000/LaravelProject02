@@ -1,47 +1,53 @@
 @extends('layouts.master')
 
 @section('content')
-@if(session('sukses'))
-<div class="alert alert-success" role="alert">
-    {{session('sukses')}}
-</div>
-@endif
-<div class="row">
-    <div class="col-6">
-        <h1>Data Siswa</h1>
+<div class="main">
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Data Siswa</h3>
+                            <div class="right">
+                                <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal"><i class="lnr lnr-plus-circle"></i></button>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Nama Depan</th>
+                                        <th>Nama Belakang</th>
+                                        <th>Jenis Kelamin</th>
+                                        <th>Agama</th>
+                                        <th>Alamat</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($data_siswa as $siswa)
+                                    <tr>
+                                        <td>{{ $siswa->nama_depan }}</td>
+                                        <td>{{ $siswa->nama_belakang }}</td>
+                                        <td>{{ $siswa->jenis_kelamin }}</td>
+                                        <td>{{ $siswa->agama }}</td>
+                                        <td>{{ $siswa->alamat }}</td>
+                                        <td>
+                                            <a href="/siswa/{{$siswa->id}}/edit" class="btn btn-warning btn-sm">Edit</a>
+                                            <a href="/siswa/{{$siswa->id}}/delete" class="btn btn-danger btn-sm" onclick="return confirm('Yakin Mau Dihapus?')">Delete</a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-6">
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal">
-            Tambah Data Siswa
-        </button>
-    </div>
-    <table class="table table-hover">
-        <tr>
-            <th>Nama Depan</th>
-            <th>Nama Belakang</th>
-            <th>Jenis Kelamin</th>
-            <th>Agama</th>
-            <th>Alamat</th>
-            <th>Action</th>
-        </tr>
-        @foreach($data_siswa as $siswa)
-        <tr>
-            <td>{{ $siswa->nama_depan }}</td>
-            <td>{{ $siswa->nama_belakang }}</td>
-            <td>{{ $siswa->jenis_kelamin }}</td>
-            <td>{{ $siswa->agama }}</td>
-            <td>{{ $siswa->alamat }}</td>
-            <td>
-                <a href="/siswa/{{$siswa->id}}/edit" class="btn btn-warning btn-sm">Edit</a>
-                <a href="/siswa/{{$siswa->id}}/delete" class="btn btn-danger btn-sm" onclick="return confirm('Yakin Mau Dihapus?')">Delete</a>
-            </td>
-        </tr>
-        @endforeach
-    </table>
 </div>
-</div>
-<!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -90,4 +96,4 @@
             </div>
         </div>
     </div>
-    @endsection
+    @stop
