@@ -5,7 +5,7 @@
     <div class="main-content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12"><a href=""></a>
                     <div class="panel">
                         <div class="panel-heading">
                             <h3 class="panel-title">Data Siswa</h3>
@@ -28,8 +28,8 @@
                                 <tbody>
                                     @foreach($data_siswa as $siswa)
                                     <tr>
-                                        <td>{{ $siswa->nama_depan }}</td>
-                                        <td>{{ $siswa->nama_belakang }}</td>
+                                        <td><a href="/siswa/{{$siswa->id}}/profile">{{ $siswa->nama_depan }}</a></td>
+                                        <td><a href="/siswa/{{$siswa->id}}/profile">{{ $siswa->nama_belakang }}</a></td>
                                         <td>{{ $siswa->jenis_kelamin }}</td>
                                         <td>{{ $siswa->agama }}</td>
                                         <td>{{ $siswa->alamat }}</td>
