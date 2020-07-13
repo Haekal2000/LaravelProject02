@@ -21,6 +21,17 @@ class SiswaController extends Controller
 
     public function create(Request $request)
     {
+        //dd($request->all());
+        $this->validate($request, [
+            'nama_depan' => 'required|min:5',
+            'nama_belakang' => 'required',
+            'email' => 'required|email|unique:users',
+            'jenis_kelamin' => 'required',
+            'agama' => 'required',
+            'alamat' => 'required',
+            'avatar' => 'mimes:jpg,png,jpeg'
+        ]);
+
         //Insert ke table Users
         $user = new \App\User;
         $user->role = 'siswa';
@@ -33,6 +44,11 @@ class SiswaController extends Controller
         //Insert ke table Siswa
         $request->request->add(['user_id' => $user->id]);
         $siswa = \App\Siswa::create($request->all());
+        if ($request->hasFile('avatar')) {
+            $request->file('avatar')->move('images/', $request->file('avatar')->getClientOriginalName());
+            $siswa->avatar = $request->file('avatar')->getClientOriginalName();
+            $siswa->save();
+        }
         return redirect('/siswa')->with('sukses', 'Data Berhasil Ditambahkan');
     }
 
@@ -65,6 +81,19 @@ class SiswaController extends Controller
     public function profile($id)
     {
         $siswa = \App\Siswa::find($id);
-        return view('siswa.profile', ['siswa' => $siswa]);
+        $matapelajaran = \App\Mapel::all();
+        // dd($mapel);
+        return view('siswa.profile', ['siswa' => $siswa, 'matapelajaran' => $matapelajaran]);
+    }
+
+    public function addnilai(Request $request, $idsiswa)
+    {
+        $siswa = \App\Siswa::find($idsiswa);
+        if ($siswa->mapel()->where('mapel_id', $request->mapel)->exists()) {
+            return redirect('siswa/' . $idsiswa . '/profile')->with('error', 'Data Mata Kuliah Sudah Ada');
+        }
+        $siswa->mapel()->attach($request->mapel, ['nilai' => $request->nilai]);
+
+        return redirect('siswa/' . $idsiswa . '/profile')->with('sukses', 'Data Nilai Berhasil Dimasukkan');
     }
 }
