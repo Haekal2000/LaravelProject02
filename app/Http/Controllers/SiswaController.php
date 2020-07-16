@@ -83,16 +83,7 @@ class SiswaController extends Controller
         $siswa = \App\Siswa::find($id);
         $matapelajaran = \App\Mapel::all();
 
-        //Menyiapkan data untuk chart
-        $categories = [];
-
-        foreach ($matapelajaran as $mp) {
-            $categories[] = $mp->nama;
-        }
-
-        // dd($categories);
-
-        return view('siswa.profile', ['siswa' => $siswa, 'matapelajaran' => $matapelajaran, 'categories' => $categories]);
+        return view('siswa.profile', ['siswa' => $siswa, 'matapelajaran' => $matapelajaran]);
     }
 
     public function addnilai(Request $request, $idsiswa)
@@ -104,5 +95,11 @@ class SiswaController extends Controller
         $siswa->mapel()->attach($request->mapel, ['nilai' => $request->nilai]);
 
         return redirect('siswa/' . $idsiswa . '/profile')->with('sukses', 'Data Nilai Berhasil Dimasukkan');
+    }
+    public function deletenilai($idsiswa, $idmapel)
+    {
+        $siswa = \App\Siswa::find($idsiswa);
+        $siswa->mapel()->detach($idmapel);
+        return redirect()->back()->with('sukses', 'Data Nilai Berhasil Dihapus');
     }
 }
