@@ -5,7 +5,7 @@
     <div class="main-content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12"><a href=""></a>
+                <div class="col-md-12">
                     <div class="panel">
                         <div class="panel-heading">
                             <h3 class="panel-title">Data Siswa</h3>
@@ -22,6 +22,7 @@
                                         <th>Jenis Kelamin</th>
                                         <th>Agama</th>
                                         <th>Alamat</th>
+                                        <th>RATA-RATA NILAI</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -33,6 +34,7 @@
                                         <td>{{ $siswa->jenis_kelamin }}</td>
                                         <td>{{ $siswa->agama }}</td>
                                         <td>{{ $siswa->alamat }}</td>
+                                        <td>{{$siswa->rataRataNilai()}}</td>
                                         <td>
                                             <a href="/siswa/{{$siswa->id}}/edit" class="btn btn-warning btn-sm">Edit</a>
                                             <a href="/siswa/{{$siswa->id}}/delete" class="btn btn-danger btn-sm" onclick="return confirm('Yakin Mau Dihapus?')">Delete</a>
